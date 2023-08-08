@@ -1,6 +1,6 @@
 class InMemory:
     def __init__(self: "InMemory") -> None:
-        pass
+        self.storage = dict()
 
     def save(self: "InMemory") -> None:
         pass
