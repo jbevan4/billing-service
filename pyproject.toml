@@ -8,8 +8,35 @@ packages = [{include = "billing_service"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
+fastapi = "^0.99.1"
+uvicorn = "^0.22.0"
+pydantic = "^1.10.11"
+sqlmodel = "^0.0.8"
 
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.0.277"
+black = "^23.3.0"
+pytest = "^7.4.0"
+pytest-cov = "^4.1.0"
+pytest-asyncio = "^0.21.0"
+httpx = "^0.24.1"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+select = ["E", "F", "ANN", "B", "I"]
+ignore = ["B008"]
+fixable = ["ALL"]
+target-version = "py311"
+show-source = true
+ignore-init-module-imports = true
+src = ["fastapi_project", "tests"]
+
+[tool.ruff.isort]
+force-wrap-aliases = true
+combine-as-imports = true
+
+[tool.ruff.mccabe]
+max-complexity = 5
