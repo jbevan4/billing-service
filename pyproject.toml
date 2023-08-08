@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "billing-service"
+version = "0.1.0"
+description = ""
+authors = ["Joshua-Luke Bevan <63861228+jbevan4@users.noreply.github.com>"]
+readme = "README.md"
+packages = [{include = "billing_service"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
