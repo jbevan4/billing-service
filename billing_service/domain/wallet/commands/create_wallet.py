@@ -1,6 +1,6 @@
-class CreateWallet:
-    def __init__(self: "CreateWallet") -> None:
-        pass
+import uuid
 
-    def apply(self: "CreateWallet") -> None:
-        pass
+
+class CreateWallet:
+    def __init__(self: "CreateWallet", user_id: uuid.UUID) -> None:
+        self.user_id = user_id
