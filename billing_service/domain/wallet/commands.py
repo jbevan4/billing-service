@@ -1,11 +1,11 @@
-class WalletCreated:
+class CreateWallet:
     def __init__(self, id, user_id):
         self.user_id = user_id
         self.id = id
 
 
-class BalanceChanged:
-    def __init__(self, wallet_id: int, amount: int, operation: callable):
+class ChangeBalance:
+    def __init__(self, amount, wallet_id, operation) -> None:
+        self.amount = amount
         self.wallet_id = wallet_id
         self.operation = operation
-        self.amount = amount
