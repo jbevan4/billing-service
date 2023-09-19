@@ -1,38 +1,39 @@
-from .aggregate_root import AggregateRoot
 from .events import BalanceChanged, WalletCreated
 
 
-class Wallet(AggregateRoot):
-    def __init__(self, create):
-        super().__init__()
-        self.emit_event(WalletCreated(user_id=create.user_id, id=create.id))
+class Wallet:
+    def __init__(self, user_id):
+        self.add_event(WalletCreated(user_id))
 
-    def apply(self, event):
+    def add_event(self, event):
         handlers = {
-            WalletCreated: self.handle_walletcreated,
-            BalanceChanged: self.handle_balancechanged,
+            WalletCreated: self.apply_wallet_created,
+            BalanceChanged: self.apply_balance_changed,
         }
         handler = handlers.get(type(event))
         if handler:
             handler(event)
+            self.events.append(event)
         else:
             raise ValueError(f"No handler found for event {type(event).__name__}")
 
-    def request_balance_change(self, command):
-        self.emit_event(
-            BalanceChanged(
-                wallet_id=command.wallet_id,
-                amount=command.amount,
-                operation=command.operation,
-            )
-        )
-
-    def handle_walletcreated(self, event: WalletCreated):
+    def apply_wallet_created(self, event: WalletCreated):
         self.id = event.id
-        self.balance = 0
+        self.events = []
+        self.current_balance = 0
+        self.user_id = event.user_id
 
-    def handle_balancechanged(self, event: BalanceChanged):
-        new_balance = event.operation(self.balance, event.amount)
-        if new_balance < 0:
+    def apply_balance_changed(self, event: BalanceChanged):
+        self.current_balance = event.operation(self.current_balance, event.amount)
+
+    def handle_balance_changed(self, event: BalanceChanged):
+        proposed_balance = event.operation(self.current_balance, event.amount)
+        if proposed_balance < 0:
             raise ValueError("balance can't go below 0")
-        self.balance = new_balance
+        self.add_event(event)
+
+    def handle_wallet_created(self, event: WalletCreated):
+        self.add_event(event)
+
+    def get_events(self):
+        return self.events

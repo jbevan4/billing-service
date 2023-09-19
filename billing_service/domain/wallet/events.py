@@ -1,7 +1,10 @@
+from uuid import uuid4
+
+
 class WalletCreated:
-    def __init__(self, id, user_id):
+    def __init__(self, user_id):
+        self.id = uuid4()
         self.user_id = user_id
-        self.id = id
 
 
 class BalanceChanged:
