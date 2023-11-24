@@ -1,8 +1,8 @@
-from billing_service.domain.wallet.wallet import Wallet
-from billing_service.domain.wallet.events import WalletCreated, BalanceChanged
-from operator import sub, add
+from operator import add, sub
 
 import pytest
+from billing_service.domain.wallet.events import BalanceChanged, WalletCreated
+from billing_service.domain.wallet.wallet import Wallet
 
 
 @pytest.fixture
@@ -29,9 +29,9 @@ def test_negative_balance(wallet: Wallet) -> None:
         wallet.handle_balance_changed(BalanceChanged(wallet.id, 50, sub))
 
 
-# def test_get_events(wallet: Wallet) -> None:
-#     events = wallet.get_events()
-#     assert isinstance(events, list)
+def test_get_events(wallet: Wallet) -> None:
+    events = wallet.get_events()
+    assert isinstance(events, list)
 
 
 def test_bad_event_handling(wallet: Wallet) -> None:

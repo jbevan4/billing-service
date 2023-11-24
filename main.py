@@ -1,17 +1,18 @@
 from operator import add, sub
-from billing_service.domain.wallet.wallet import Wallet
-from billing_service.domain.wallet.events import WalletCreated, BalanceChanged
+
+from billing_service.domain.wallet.events import BalanceChanged
 from billing_service.domain.wallet.repository import Repository
 
 
-def main():
+def main() -> None:
     repository = Repository()
 
     while True:
         print("1. Create Wallet")
         print("2. Change Balance")
         print("3. View Wallet")
-        print("4. Exit")
+        print("4. Get Wallet Balance")
+        print("5. Exit")
 
         choice = input("Choose an option: ")
 
@@ -42,6 +43,13 @@ def main():
             print(f"Events: {wallet.get_events()}")
             print(f"Balance: {wallet.current_balance}")
         elif choice == "4":
+            user_id = input("Enter user ID: ")
+            wallet = repository.get(user_id)
+            if not wallet:
+                print("Wallet not found!")
+                continue
+            print(f"Balance: {wallet.current_balance}")
+        elif choice == "5":
             break
         else:
             print("Invalid choice. Please try again.")
