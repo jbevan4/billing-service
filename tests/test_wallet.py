@@ -20,7 +20,8 @@ def test_wallet_creation(wallet: Wallet) -> None:
 def test_balance_change(wallet: Wallet) -> None:
     wallet.handle_wallet_created(WalletCreated("123"))
     wallet.handle_balance_changed(BalanceChanged(wallet.id, 50, add))
-    assert wallet.current_balance == 50
+    wallet.handle_balance_changed(BalanceChanged(wallet.id, 50, add))
+    assert wallet.current_balance == 100
 
 
 def test_negative_balance(wallet: Wallet) -> None:

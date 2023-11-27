@@ -5,6 +5,7 @@ from .events import BalanceChanged, WalletCreated
 
 class Wallet:
     def __init__(self: "Wallet", user_id: uuid4) -> None:
+        self.events = []
         self.add_event(WalletCreated(user_id))
 
     def add_event(self: "Wallet", event: WalletCreated | BalanceChanged) -> None:
@@ -21,7 +22,6 @@ class Wallet:
 
     def apply_wallet_created(self: "Wallet", event: WalletCreated) -> None:
         self.id = event.id
-        self.events = []
         self.current_balance = 0
         self.user_id = event.user_id
 
